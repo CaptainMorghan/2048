@@ -61,12 +61,6 @@ namespace _2048
             {
                 board.setTileAt(Tile2PositionX, Tile2PositionY, TileNumber);
             }
-            if(Keyboard.IsKeyDown(Key.Up))
-            {
-                int Tile3PositionX = random.Next(4);
-                int Tile3PositionY = random.Next(4);
-                board.setTileAt(Tile3PositionX, Tile3PositionY, TileNumber);
-            }
 
             
         }
@@ -106,7 +100,76 @@ namespace _2048
         /// </summary>
         private void tick(object sender, EventArgs e)
         {
+            Input.tick();
+
+            if (Input.wasKeyPressed(Input.UP))
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    for (int y = 1; y < 4; y++)
+                    {
+                        //tile at x,y
+                        if (board.isTileAt(x, y))
+                        {
+                            for (int d = y; d > 0; d--)
+
+                            {
+                                board.moveTile(x, d, x, d - 1);
+                            }
+                        }
+                    }
+                }
+            }
+            if(Input.wasKeyPressed(Input.DOWN))
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    for (int y = 2; y > -1; y--)
+                    {
+                        if (board.isTileAt(x, y))
+                        {
+                            for (int d = y; d < 3; d++)
+                            {
+                                board.moveTile(x, d, x, d + 1);
+                            }
+                        }
+                    }
+                }
+            }
+            if(Input.wasKeyPressed(Input.LEFT))
+            {
+                for (int x = 1; x < 4; x++)
+                {
+                    for (int y = 0; y < 4; y++)
+                        if (board.isTileAt (x, y))
+                        {
+                            for (int d = x; d > 0; d--)
+                            {
+                                board.moveTile(d, y, d - 1, y);
+                            }
+                        }
+                }
+            }
+
+            /*if(Keyboard.IsKeyToggled(Key.Down) || Keyboard.IsKeyToggled(Key.Up) || Keyboard.IsKeyToggled(Key.Left) || Keyboard.IsKeyToggled(Key.Right))
+            {
+                Random random = new Random();
+                int TileRandomNumber = random.Next(0, 10);
+                int TileNumber;
+                if (TileRandomNumber <= 9)
+                {
+                    TileNumber = 2;
+                }
+                else
+                {
+                    TileNumber = 4;
+                }
+                int Tile1PositionX = random.Next(4);
+                int Tile1PositionY = random.Next(4);
+                board.setTileAt(Tile1PositionX, Tile1PositionY, TileNumber);
+            }*/
             board.tick();
+
         }
 
         /// <summary>
